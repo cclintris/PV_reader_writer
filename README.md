@@ -7,55 +7,56 @@
 (以下假设添加系统调用名为 xxx)
 
 - /kernel/proc.c
-在此文件中，要添加系统调用的的方法名和逻辑，统一以 sys_xxx 命名<br><br/>
+在此文件中，要添加系统调用的的方法名和逻辑，统一以 sys_xxx 命名
 
 - /kernel/syscall.asm
-在此文件中，要添加与 /kernel/global.c 中 sys_call_table 索引一一对应的系统调用向量，系统调用的汇编代码，以及对外的导出符号。统一以 xxx 命名<br><br/>
+在此文件中，要添加与 /kernel/global.c 中 sys_call_table 索引一一对应的系统调用向量，系统调用的汇编代码，以及对外的导出符号。统一以 xxx 命名
 
 - /kernel/global.c
-在此文件中，要将新添加的系统调用名(与 /kernel/proc.c)中一样添加到 sys_call_table 中<br><br/>
+在此文件中，要将新添加的系统调用名(与 /kernel/proc.c)中一样添加到 sys_call_table 中
 
 - /include/const.h
-在此文件中，要更新 NR_SYS_CALL 常数，表示的是
-当前系统调用个数<br><br/>
+在此文件中，要更新 NR_SYS_CALL 常数，表示的是当前系统调用个数
 
 ### /kernel/proc.c
 在此文件中，我添加了以下方法:
 - PUBLIC int sys_get_ticks()
-该方法返回的是当前的 ticks<br><br/>
+该方法返回的是当前的 ticks
 
 - PUBLIC void sys_print_str(char* str)
-该方法实现了打印一个给定的字符串<br><br/>
+该方法实现了打印一个给定的字符串
 
 - PUBLIC void sys_print_color_str(char* str, int color)
-该方法实现了以给定的颜色代码打印一个给定的字符串<br><br/>
+该方法实现了以给定的颜色代码打印一个给定的字符串
 
 - PUBLIC void sys_sleep(int milli_seconds)
-该方法实现作业要求一，调用此方法进程会在milli_seconds 毫秒内不被分配时间片<br><br/>
+该方法实现作业要求一，调用此方法进程会在milli_seconds 毫秒内不被分配时间片
 
 - PUBLIC void sys_p_lock(LOCK *lock)
-该方法实现了 PV 操作的 P 操作<br><br/>
+该方法实现了 PV 操作的 P 操作
 
 - PUBLIC void sys_v_lock(LOCK *lock)
-该方法实现了 PV 操作的 V 操作<br><br/>
+该方法实现了 PV 操作的 V 操作
 
 - PUBLIC void sys_set_task_time(int task_time)
-该方法实现了根据给定的 task_time 设定当前进程分配的时间片<br><br/>
+该方法实现了根据给定的 task_time 设定当前进程分配的时间片
 
 - PUBLIC int sys_get_task_time()
-该方法实现了返回当前进程分配的时间片<br><br/>
+该方法实现了返回当前进程分配的时间片
 
 - PUBLIC int sys_set_read_or_write_flag(int read_or_write_flag)
-该方法实现了设定当前进程为读或是写状态(通过 /include/global.h 中的 read_or_write_flag 标记位)<br><br/>
+该方法实现了设定当前进程为读或是写状态(通过 /include/global.h 中的 read_or_write_flag 标记位)
 
 - PUBLIC int sys_get_read_or_write_flag()
-该方法实现了返回当前进程为读或是写状态(通过 /include/global.h 中的 read_or_write_flag 标记位)<br><br/>
+该方法实现了返回当前进程为读或是写状态(通过 /include/global.h 中的 read_or_write_flag 标记位)
 
 ### /kernel/syscall.asm
 在此文件中，我添加了 10 个系统调用向量。用于汇编代码，如下图:
-![](https://wtfhhh.oss-cn-beijing.aliyuncs.com/os4doc1.png)
+![](https://wtfhhh.oss-cn-beijing.aliyuncs.com/os4doc1.png)<br><br/>
+
 10 个导出符号，以供外部文件使用，如下图:
-![](https://wtfhhh.oss-cn-beijing.aliyuncs.com/os4doc2.png)
+![](https://wtfhhh.oss-cn-beijing.aliyuncs.com/os4doc2.png)<br><br/>
+
 以及每个系统调用的汇编代码:
 - get_ticks
 - sleep
